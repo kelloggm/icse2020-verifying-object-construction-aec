@@ -12,7 +12,10 @@ In the order in which they appear in the paper:
 * `autovalue-benchmarks.md` and `lombok-benchmarks.md` contain the instructions to reproduce table 2. The instructions are slightly different for the two builder frameworks.
 * `user-study.md` contains information on the user study described in section 6.2.2.
 
-For the convenience of the reviewers, we have provided a virtual machine image
-containing all the dependencies, etc., already set up. The home directory of
-that virtual machine contains a copy of this archive. The virtual machine
+For the convenience of the reviewers, we have provided a virtual
+machine image containing all the dependencies, etc., already set up
+according to the instructions in these documents. When doing
+reproduction within the virtual machine, you can skip any step
+involving the installation of a dependency. The home directory of that
+virtual machine contains a copy of this archive. The virtual machine
 was created using Oracle VirtualBox Version 5.2.34 r133893.
