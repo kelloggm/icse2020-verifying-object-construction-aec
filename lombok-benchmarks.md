@@ -43,5 +43,4 @@ The changes need to be categorized appropriately; this should be straightforward
 
 To compute lines of code, we used cloc. See the `count-loc.sh` script in each benchmark.
 
-To compute the number of calls we verified, see the `count-callsites.sh` script in each benchmark.
-TODO: explain counting # of verified calls
+To compute the number of calls we verified, see the `count-callsites.sh` script in each benchmark. The number of verified calls is computed by running the Checker Framework in a special mode that prints every comparison it makes, and then counting in that output the number of times the receiver of a method called "build()" is checked against a non-trivial (that is, not top) @CalledMethods type.
