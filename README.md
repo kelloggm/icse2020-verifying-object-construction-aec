@@ -19,3 +19,5 @@ reproduction within the virtual machine, you can skip any step
 involving the installation of a dependency. The home directory of that
 virtual machine contains a copy of this archive. The virtual machine
 was created using Oracle VirtualBox Version 5.2.34 r133893.
+
+To login to the VM, use the username and password 'icse2020'.
