@@ -1,8 +1,10 @@
-AutoValue Benchmark Instructions
+Case Study Instructions
 =============================
 
-These are instructions for reproducing our Object Construction Checker experimental results on AutoValue benchmarks.  There are three benchmarks:
+These are instructions for reproducing our Object Construction Checker experimental results on our case studies, which appear in table 2.  There are five benchmarks (two using Lombok, and three using AutoValue):
 
+* https://github.com/kelloggm/java-webauthn-server
+* https://github.com/kelloggm/clientManagementSystem
 * https://github.com/msridhar/error-prone
 * https://github.com/msridhar/gapic-generator
 * https://github.com/msridhar/nomulus
@@ -19,22 +21,48 @@ See the instructions in `setting-up-the-checker.md`.
 Running the checker
 -----------------------------------
 
+```
+git clone https://github.com/kelloggm/java-webauthn-server && (cd java-webauthn-server && git checkout fixed-with-obj-cons-build)
+(cd java-webauthn-server && ./gradlew --console=plain -PcfLocal clean compileJava)
+```
+
+```
+git clone https://github.com/kelloggm/clientManagementSystem && (cd clientManagementSystem && git checkout fixed-with-obj-cons-build)
+(cd clientManagementSystem && ./gradlew --console=plain -PcfLocal clean compileJava)
+```
+
+Note that for `clientManagementSystem`, there is no difference between the two branches, because the checker does not issue any warnings. Also, there is another minor change we made to that benchmark: we replaced every javax.annotation.NonNull annotation with a lombok.NonNull annotation, so that our checker could understand the @NonNull annotations in classes with @Builder.
+
+```
 git clone https://github.com/msridhar/error-prone && (cd error-prone && git checkout fixed-with-obj-cons-build)
-(cd error-prone && mvn clean compile)
+(cd error-prone && mvn -B clean compile)
+```
 
+Look for "finalizer" in the Maven output.
+
+```
 git clone https://github.com/msridhar/gapic-generator && (cd gapic-generator && git checkout fixed-with-obj-cons-build)
-(cd gapic-generator && ./gradlew -PcfLocal compileJava)
+(cd gapic-generator && ./gradlew --console=plain -PcfLocal clean compileJava)
+```
 
+```
 git clone https://github.com/msridhar/nomulus && (cd nomulus && git checkout fixed-with-obj-cons-build)
-(cd nomulus && ./gradlew -PcfLocal compileJava)
+(cd nomulus && ./gradlew --console=plain -PcfLocal clean compileJava)
+```
+
+Nomulus's buildfile has multiple compilation tasks; add up the summaries such as
+6 warnings
+1 warning
+1 warning
+to get the total number of warnings.
+
 
 Computing results for a benchmark
 -----------------------------------
 
 To determine true and false positives for a benchmark, check out the
 `fixed-with-obj-cons-build` branch, build the benchmark, and categorize any
-warnings from our checker.  To build a benchmark, run `./typecheck.sh` in the
-benchmark directory.  For the AutoValue benchmarks, all warnings are false
+warnings from our checker.  For these benchmarks, all warnings are false
 positives except for the following one from `gapic-generator`:
 
 ```
@@ -52,5 +80,6 @@ The changes need to be categorized appropriately; this should be straightforward
 
 To compute lines of code, we used cloc. See the `count-loc.sh` script in each benchmark.
 
-To count the number of verified call sites, run the `count-verified-calls.sh`
-script for each benchmark. The number of verified calls is computed by running the Checker Framework in a special mode that prints every comparison it makes, and then counting in that output the number of times the receiver of a method called "build()" is checked against a non-trivial (that is, not top) @CalledMethods type.
+To count the number of call sites invoking an AutoValue or Lombok
+`build()` method, run the `count-verified-calls.sh` script for each
+benchmark.

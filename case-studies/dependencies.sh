@@ -26,7 +26,7 @@ else
     pushd /tmp/
     git clone https://github.com/kelloggm/object-construction-checker
     pushd object-construction-checker
-    git checkout a3e88e7ee61dcca620651604f981c3801c723444
+    git checkout f3a2425ac0c038d54087b72922d8134ce903fe9c
 
     ./gradlew install
 
